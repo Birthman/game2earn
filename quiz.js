@@ -60,9 +60,23 @@ function nextQuestion() {
 
 function sendReward() {
   const wallet = document.getElementById("wallet").value;
-  sendRewardToPlayer(wallet, "Quiz Game"); // Call reward.js logic
-}
 
-// Start game
-loadQuestion();
+  fetch("http://localhost:3000/claim-reward", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ wallet, game: "quiz" })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("🎉 Jinni Token sent! Tx Hash:\n" + data.txHash);
+    } else {
+      alert("❌ Error: " + (data.error || "Unknown"));
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ Could not connect to reward server.");
+  });
+}
 
