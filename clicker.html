@@ -1,1 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clicker Game | Game2Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🖱 Clicker Game</h1>
+    <p>Click 30 times in 10 seconds to earn XRP!</p>
+  </header>
+
+  <main>
+    <h2 id="count">0 Clicks</h2>
+    <button id="click-btn" onclick="clickMe()">Click Me!</button>
+    <p id="timer">Time Left: 10s</p>
+    <div id="reward-box" style="display:none;">
+      <h2>🎉 You won!</h2>
+      <input type="text" id="wallet" placeholder="XRPL wallet address">
+      <button onclick="sendReward()">Claim XRP</button>
+    </div>
+  </main>
+
+  <script>
+    let clicks = 0;
+    let time = 10;
+    let started = false;
+
+    function clickMe() {
+      if (!started) {
+        started = true;
+        const interval = setInterval(() => {
+          time--;
+          document.getElementById("timer").textContent = "Time Left: " + time + "s";
+          if (time === 0) {
+            clearInterval(interval);
+            document.getElementById("click-btn").disabled = true;
+            if (clicks >= 30) {
+              document.getElementById("reward-box").style.display = "block";
+            } else {
+              alert("You needed 30 clicks. Try again!");
+              location.reload();
+            }
+          }
+        }, 1000);
+      }
+      clicks++;
+      document.getElementById("count").textContent = clicks + " Clicks";
+    }
+
+    function sendReward() {
+      const wallet = document.getElementById("wallet").value;
+      if (!wallet.startsWith("r")) return alert("Invalid XRPL address");
+      alert("✅ Tokens will be sent to: " + wallet);
+    }
+  </script>
+</body>
+</html>
 
