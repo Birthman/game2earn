@@ -1,124 +1,194 @@
-/* ===== Reset & Base Styles ===== */
+/* Reset & Base Layout */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f6fa;
   color: #333;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  text-align: center;
   padding: 20px;
 }
 
-/* ===== Main Game Container ===== */
+/* Header */
+header {
+  background-color: #2d2fdf;
+  color: #fff;
+  width: 100%;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Main content area */
 main {
   background: #fff;
   padding: 30px 20px;
   border-radius: 10px;
-  text-align: center;
-  width: 100%;
   max-width: 500px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Headers & Paragraphs ===== */
-h1 {
-  margin-bottom: 10px;
-  font-size: 1.8rem;
+/* Headings and paragraph */
+h1, h2, p {
+  margin-bottom: 1rem;
 }
 
-p {
-  margin-bottom: 20px;
-  font-size: 1rem;
-}
-
-#count {
-  font-size: 1.4rem;
-  margin: 15px 0;
-}
-
-#timer {
-  font-size: 1rem;
-  margin: 10px 0 20px;
-}
-
-/* ===== Click Button ===== */
+/* Click Button */
 #click-btn {
-  display: inline-block;
-  padding: 14px 24px;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 80%;
+  max-width: 300px;
+  transition: background-color 0.3s ease;
+}
+
+#click-btn:hover:enabled {
+  background-color: #218838;
+}
+
+#click-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Reward Box */
+#reward-box {
+  margin-top: 2rem;
+}
+
+input[type="text"] {
+  padding: 10px;
+  width: 80%;
+  max-width: 300px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Generic button style (e.g., Claim JINNI) */
+button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  margin-top: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
   background-color: #007bff;
   color: white;
-  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Game menu (index.html) */
+.game-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.game-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 200px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+  background-color: #e1f0ff;
+}
+
+/* Quiz layout */
+#question {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+#answers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.answer-btn {
+  padding: 12px 18px;
+  font-size: 1rem;
+  background-color: #e0e0e0;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-#click-btn:hover {
-  background-color: #0056b3;
+.answer-btn:hover:enabled {
+  background-color: #d0d0d0;
 }
 
-#click-btn:disabled {
+.answer-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* ===== Reward Section ===== */
-#reward-box {
-  margin-top: 20px;
-}
-
-input[type="text"] {
-  padding: 10px;
-  width: 90%;
-  max-width: 300px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-button.claim-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #4caf50;
+#next-btn {
+  padding: 12px 24px;
+  font-size: 1rem;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  margin-top: 15px;
+  display: inline-block;
 }
 
-button.claim-btn:hover {
-  background-color: #45a049;
+#next-btn:hover {
+  background-color: #0056b3;
 }
 
-/* ===== Responsive ===== */
+/* Responsive Adjustments */
 @media (max-width: 600px) {
   body {
-    align-items: flex-start;
-    padding: 10px;
+    padding: 15px;
   }
 
   main {
-    margin-top: 30px;
     padding: 20px;
+    margin-top: 20px;
   }
 
-  #click-btn {
-    font-size: 1rem;
-    padding: 12px 20px;
+  #click-btn, button, .answer-btn {
+    width: 100%;
   }
 
-  input[type="text"] {
-    font-size: 1rem;
+  .game-card {
+    width: 100%;
   }
 }
