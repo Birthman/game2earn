@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Puzzle Game | Game2Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🧩 Puzzle Game</h1>
+    <p>Unscramble the word: "OTKEN"</p>
+  </header>
+
+  <main>
+    <input type="text" id="answer" placeholder="Your guess">
+    <button onclick="checkAnswer()">Submit</button>
+    <div id="reward-box" style="display:none;">
+      <h2>🎉 You solved it!</h2>
+      <input type="text" id="wallet" placeholder="XRPL Wallet (r...)">
+      <button onclick="sendReward()">Claim Reward</button>
+    </div>
+  </main>
+
+  <script>
+    function checkAnswer() {
+      const val = document.getElementById("answer").value.trim().toLowerCase();
+      if (val === "token") {
+        document.getElementById("reward-box").style.display = "block";
+      } else {
+        alert("❌ Try again!");
+      }
+    }
+
+    function sendReward() {
+      const wallet = document.getElementById("wallet").value;
+      if (!wallet.startsWith("r")) return alert("Invalid address");
+      alert("✅ Tokens sent to: " + wallet);
+    }
+  </script>
+</body>
+</html>
 
