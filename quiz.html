@@ -1,26 +1,70 @@
-function loadQuestion() {
-  const q = questions[index];
-  document.getElementById("question").textContent = q.q;
-  const answersEl = document.getElementById("answers");
-  answersEl.innerHTML = "";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🧠 Quiz Game</h1>
+  <div id="question-box">
+    <p id="question"></p>
+    <div id="answers"></div>
+    <button onclick="nextQuestion()">Next</button>
+  </div>
 
-  q.a.forEach((ans, i) => {
-    const btn = document.createElement("button");
-    btn.textContent = ans;
-    btn.classList.add("answer-btn");
-
-    btn.addEventListener("click", () => {
-      // Disable all buttons after one is clicked
-      document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
-
-      if (i === q.correct) {
-        score++;
-        btn.style.backgroundColor = "#b4ffb4"; // green for correct
-      } else {
-        btn.style.backgroundColor = "#ffb4b4"; // red for wrong
+  <script>
+    const questions = [
+      {
+        q: "What does HTML stand for?",
+        a: ["Hyper Text Markup Language", "Home Tool Markup Language", "High Tech Mail Language"],
+        correct: 0
+      },
+      {
+        q: "Which symbol is used for comments in JavaScript?",
+        a: ["//", "#", "<!--"],
+        correct: 0
       }
-    });
+    ];
 
-    answersEl.appendChild(btn);
-  });
-}
+    let index = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = questions[index];
+      document.getElementById("question").textContent = q.q;
+      const answersEl = document.getElementById("answers");
+      answersEl.innerHTML = "";
+
+      q.a.forEach((ans, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = ans;
+        btn.classList.add("answer-btn");
+
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
+          if (i === q.correct) {
+            score++;
+            btn.style.backgroundColor = "#b4ffb4";
+          } else {
+            btn.style.backgroundColor = "#ffb4b4";
+          }
+        });
+
+        answersEl.appendChild(btn);
+      });
+    }
+
+    function nextQuestion() {
+      index++;
+      if (index < questions.length) {
+        loadQuestion();
+      } else {
+        alert("Quiz finished! You scored: " + score);
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
