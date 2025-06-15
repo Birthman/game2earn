@@ -14,59 +14,7 @@
     <button onclick="nextQuestion()">Next</button>
   </div>
 
-  <script>
-    const questions = [
-      {
-        q: "What does HTML stand for?",
-        a: ["Hyper Text Markup Language", "Home Tool Markup Language", "High Tech Mail Language"],
-        correct: 0
-      },
-      {
-        q: "Which symbol is used for comments in JavaScript?",
-        a: ["//", "#", "<!--"],
-        correct: 0
-      }
-    ];
-
-    let index = 0;
-    let score = 0;
-
-    function loadQuestion() {
-      const q = questions[index];
-      document.getElementById("question").textContent = q.q;
-      const answersEl = document.getElementById("answers");
-      answersEl.innerHTML = "";
-
-      q.a.forEach((ans, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = ans;
-        btn.classList.add("answer-btn");
-
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
-          if (i === q.correct) {
-            score++;
-            btn.style.backgroundColor = "#b4ffb4";
-          } else {
-            btn.style.backgroundColor = "#ffb4b4";
-          }
-        });
-
-        answersEl.appendChild(btn);
-      });
-    }
-
-    function nextQuestion() {
-      index++;
-      if (index < questions.length) {
-        loadQuestion();
-      } else {
-        alert("Quiz finished! You scored: " + score);
-      }
-    }
-
-    loadQuestion();
-  </script>
+  
 
     <script src="utils.js"></script>
   <script src="reward.js"></script>
