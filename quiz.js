@@ -51,6 +51,7 @@ const questions = allQuestions.slice(0, 5);
 let index = 0;
 let score = 0;
 
+console.log("Loading question", index, questions[index]);
 
 function loadQuestion() {
   const q = questions[index];
