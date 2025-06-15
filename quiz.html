@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Game | Game2Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🧠 Quiz Game</h1>
+    <p>Answer correctly to earn XRP tokens!</p>
+  </header>
+
+  <main>
+    <div id="question-box">
+      <p id="question">Loading...</p>
+      <div id="answers"></div>
+      <button onclick="nextQuestion()">Next</button>
+    </div>
+    <div id="reward-box" style="display:none;">
+      <h2>🎉 You qualified for a reward!</h2>
+      <input type="text" id="wallet" placeholder="Enter your XRPL wallet (r...)">
+      <button onclick="sendReward()">Claim XRP</button>
+    </div>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        q: "What does HTML stand for?",
+        a: ["Hyper Text Markup Language", "High Transfer Media Language", "How To Make Lasagna"],
+        correct: 0
+      },
+      {
+        q: "What symbol starts a JavaScript comment?",
+        a: ["#", "//", "??"],
+        correct: 1
+      },
+      {
+        q: "Which of these is NOT a programming language?",
+        a: ["Python", "Java", "BananaScript"],
+        correct: 2
+      }
+    ];
+
+    let index = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = questions[index];
+      document.getElementById("question").textContent = q.q;
+      const answersEl = document.getElementById("answers");
+      answersEl.innerHTML = "";
+      q.a.forEach((ans, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = ans;
+        btn.onclick = () => {
+          if (i === q.correct) score++;
+          document.querySelectorAll("#answers button").forEach(b => b.disabled = true);
+        };
+        answersEl.appendChild(btn);
+      });
+    }
+
+    function nextQuestion() {
+      index++;
+      if (index < questions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("question-box").style.display = "none";
+        if (score >= 2) {
+          document.getElementById("reward-box").style.display = "block";
+        } else {
+          document.body.innerHTML = "<h2>Try again! You need at least 2 correct answers.</h2>";
+        }
+      }
+    }
+
+    function sendReward() {
+      const wallet = document.getElementById("wallet").value;
+      if (!wallet.startsWith("r")) return alert("Invalid wallet address");
+      alert("XRP tokens sent to: " + wallet);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
 
