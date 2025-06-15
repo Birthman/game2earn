@@ -1,3 +1,24 @@
+const questions = [
+  {
+    q: "What does HTML stand for?",
+    a: ["Hyper Text Markup Language", "Hot Text Mail Language", "How To Make Lasagna"],
+    correct: 0
+  },
+  {
+    q: "What symbol starts a JavaScript comment?",
+    a: ["#", "//", "--"],
+    correct: 1
+  },
+  {
+    q: "Which one is NOT a programming language?",
+    a: ["Python", "BananaScript", "Java"],
+    correct: 1
+  }
+];
+
+let index = 0;
+let score = 0;
+
 function loadQuestion() {
   const q = questions[index];
   document.getElementById("question").textContent = q.q;
@@ -9,18 +30,39 @@ function loadQuestion() {
     btn.textContent = ans;
     btn.classList.add("answer-btn");
 
-    btn.addEventListener("click", () => {
-      // Disable all buttons after one is clicked
+    btn.addEventListener("click", function () {
       document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
-
       if (i === q.correct) {
         score++;
-        btn.style.backgroundColor = "#b4ffb4"; // green for correct
+        this.style.backgroundColor = "#b4ffb4";
       } else {
-        btn.style.backgroundColor = "#ffb4b4"; // red for wrong
+        this.style.backgroundColor = "#ffb4b4";
       }
     });
 
     answersEl.appendChild(btn);
   });
 }
+
+function nextQuestion() {
+  index++;
+  if (index < questions.length) {
+    loadQuestion();
+  } else {
+    document.getElementById("question-box").style.display = "none";
+    if (score >= 2) {
+      document.getElementById("reward-box").style.display = "block";
+    } else {
+      document.body.innerHTML = `<h2>Try again! You need at least 2 correct answers.</h2>`;
+    }
+  }
+}
+
+function sendReward() {
+  const wallet = document.getElementById("wallet").value;
+  sendRewardToPlayer(wallet, "Quiz Game"); // Call reward.js logic
+}
+
+// Start game
+loadQuestion();
+
