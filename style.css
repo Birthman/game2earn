@@ -44,3 +44,12 @@ footer {
   background-color: #e1f0ff;
 }
 
+.answer-btn {
+  display: block;
+  margin: 0.5rem auto;
+  padding: 10px 20px;
+  font-size: 1rem;
+  width: 60%;
+  cursor: pointer;
+  border-radius: 5px;
+}
