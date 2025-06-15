@@ -3,39 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Code2Earn</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Game2Earn Hub</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>🚀 Code2Earn</h1>
-    <p>Learn to code and earn XRP rewards!</p>
+    <h1>🎮 Game2Earn</h1>
+    <p>Play fun games and earn XRP tokens!</p>
   </header>
 
-  <main>
-    <section id="challenge-section">
-      <h2>🧩 Current Challenge</h2>
-      <div id="challenge-description"></div>
-    </section>
-
-    <section id="editor-section">
-      <h2>👨‍💻 Code Editor</h2>
-      <textarea id="code-editor" placeholder="Write your code here..."></textarea>
-      <button onclick="runCode()">▶ Run Code</button>
-      <div id="output"></div>
-      <button id="submit-btn" onclick="submitChallenge()">✅ Submit Challenge</button>
-    </section>
-
-    <section id="reward-section" style="display:none;">
-      <h2>🎉 Challenge Complete!</h2>
-      <p>Enter your XRPL wallet address to receive your reward:</p>
-      <input type="text" id="wallet-address" placeholder="r...">
-      <button onclick="sendReward()">💸 Send Reward</button>
-    </section>
+  <main class="game-menu">
+    <a href="quiz.html" class="game-card">🧠 Quiz Game</a>
+    <a href="clicker.html" class="game-card">🖱 Clicker Game</a>
+    <a href="arcade.html" class="game-card">🚀 Arcade Game</a>
+    <a href="puzzle.html" class="game-card">🧩 Puzzle Game</a>
   </main>
 
-  <script src="challenges.js"></script>
-  <script src="main.js"></script>
-  <script src="reward.js"></script>
+  <footer>
+    <p>&copy; 2025 Game2Earn</p>
+  </footer>
 </body>
 </html>
