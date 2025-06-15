@@ -6,80 +6,6 @@
 
   <title>Clicker Game | Game2Earn</title>
   <link rel="stylesheet" href="style/style.css" />
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      max-width: 100%;
-      background: #f2f2f2;
-      text-align: center;
-      user-select: none;
-    }
-
-    header {
-      background: #007bff;
-      color: white;
-      padding: 1rem;
-    }
-
-    main {
-      padding: 2rem 1rem;
-      max-width: 500px;
-      margin: auto;
-    }
-
-    #click-btn {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      border: none;
-      background: #28a745;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 1rem;
-      width: 80%;
-      max-width: 300px;
-    }
-
-    #click-btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    #reward-box {
-      margin-top: 2rem;
-    }
-
-    input[type="text"] {
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      font-size: 1rem;
-      padding: 10px 20px;
-      margin-top: 0.5rem;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      #click-btn {
-        font-size: 1rem;
-        padding: 12px;
-      }
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -115,7 +41,7 @@
           document.getElementById("timer").textContent = "Time Left: " + time + "s";
           if (time === 0) {
             clearInterval(interval);
-            this.disabled = true;
+            document.getElementById("click-btn").disabled = true;
             if (clicks >= 30) {
               document.getElementById("reward-box").style.display = "block";
             } else {
