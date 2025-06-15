@@ -2,101 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Clicker Game | Game2Earn</title>
   <link rel="stylesheet" href="style.css" />
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      max-width: 100%;
-      background: #f2f2f2;
-      text-align: center;
-      user-select: none;
-    }
-
-    header {
-      background: #007bff;
-      color: white;
-      padding: 1rem;
-    }
-
-    main {
-      padding: 2rem 1rem;
-      max-width: 500px;
-      margin: auto;
-    }
-
-    #click-btn {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      border: none;
-      background: #28a745;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 1rem;
-      width: 80%;
-      max-width: 300px;
-    }
-
-    #click-btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    #reward-box {
-      margin-top: 2rem;
-    }
-
-    input[type="text"] {
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      font-size: 1rem;
-      padding: 10px 20px;
-      margin-top: 0.5rem;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      #click-btn {
-        font-size: 1rem;
-        padding: 12px;
-      }
-    }
-  </style>
 </head>
 <body>
   <header>
     <h1>🖱 Clicker Game</h1>
-    <p>Click 30 times in 10 seconds to earn JINNI tokens!</p>
+    <p>Click 30 times in 10 seconds to earn XRP!</p>
   </header>
 
   <main>
     <h2 id="count">0 Clicks</h2>
-    <button type="button" id="click-btn">Click Me!</button>
+    <button id="click-btn" onclick="clickMe()">Click Me!</button>
     <p id="timer">Time Left: 10s</p>
-
     <div id="reward-box" style="display:none;">
       <h2>🎉 You won!</h2>
-      <input type="text" id="wallet" placeholder="XRPL wallet address" />
-      <br />
-      <button onclick="sendReward()">Claim JINNI</button>
+      <input type="text" id="wallet" placeholder="XRPL wallet address">
+      <button onclick="sendReward()">Claim XRP</button>
     </div>
   </main>
 
@@ -105,9 +27,7 @@
     let time = 10;
     let started = false;
 
-    document.getElementById("click-btn").addEventListener("click", function (e) {
-      e.preventDefault();
-
+    function clickMe() {
       if (!started) {
         started = true;
         const interval = setInterval(() => {
@@ -115,7 +35,7 @@
           document.getElementById("timer").textContent = "Time Left: " + time + "s";
           if (time === 0) {
             clearInterval(interval);
-            this.disabled = true;
+            document.getElementById("click-btn").disabled = true;
             if (clicks >= 30) {
               document.getElementById("reward-box").style.display = "block";
             } else {
@@ -125,34 +45,14 @@
           }
         }, 1000);
       }
-
       clicks++;
       document.getElementById("count").textContent = clicks + " Clicks";
-    });
+    }
 
     function sendReward() {
-      const wallet = document.getElementById("wallet").value.trim();
-      if (!wallet.startsWith("r") || wallet.length < 25) {
-        return alert("❌ Invalid XRPL address");
-      }
-
-      fetch("http://localhost:3000/claim-reward", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ wallet, game: "clicker" })
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            alert("🎉 Jinni Token sent! Tx Hash:\n" + data.txHash);
-          } else {
-            alert("❌ Error: " + (data.error || "Unknown error"));
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          alert("❌ Could not connect to reward server.");
-        });
+      const wallet = document.getElementById("wallet").value;
+      if (!wallet.startsWith("r")) return alert("Invalid XRPL address");
+      alert("✅ Tokens will be sent to: " + wallet);
     }
   </script>
 </body>
