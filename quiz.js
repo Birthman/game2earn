@@ -58,20 +58,25 @@ function loadQuestion() {
   const answersEl = document.getElementById("answers");
   answersEl.innerHTML = "";
 
-  const answers = [...q.a];
-  const correctIndex = q.correct;
-  shuffle(answers);
+  // Make a copy of answers and remember the correct answer
+  const originalAnswers = [...q.a];
+  const correctAnswer = originalAnswers[q.correct];
 
-  answers.forEach((ans, i) => {
+  // Shuffle answers
+  const shuffledAnswers = [...originalAnswers];
+  shuffle(shuffledAnswers);
+
+  shuffledAnswers.forEach(ans => {
     const btn = document.createElement("button");
     btn.textContent = ans;
     btn.classList.add("answer-btn");
 
     btn.addEventListener("click", () => {
+      // Disable all buttons
       document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
 
-      const selectedIndex = answers.indexOf(ans);
-      const isCorrect = q.a[correctIndex] === ans;
+      // Check if this answer is the original correct one
+      const isCorrect = ans === correctAnswer;
 
       if (isCorrect) {
         score++;
@@ -80,58 +85,10 @@ function loadQuestion() {
         btn.style.backgroundColor = "#ffb4b4"; // red
       }
 
+      // Move to next question after delay
       setTimeout(() => {
         index++;
         if (index < questions.length) {
           loadQuestion();
-        } else {
-          showReward();
-        }
-      }, 1000);
-    });
 
-    answersEl.appendChild(btn);
-  });
-}
 
-function showReward() {
-  document.getElementById("question").textContent = `You scored ${score} / ${questions.length}`;
-  document.getElementById("answers").innerHTML = "";
-
-  if (score === questions.length) {
-    document.getElementById("reward-box").style.display = "block";
-  } else {
-    const retry = document.createElement("button");
-    retry.textContent = "Try Again";
-    retry.onclick = () => location.reload();
-    document.getElementById("answers").appendChild(retry);
-  }
-}
-
-function sendReward() {
-  const wallet = document.getElementById("wallet").value.trim();
-  if (!wallet.startsWith("r") || wallet.length < 25) {
-    return alert("Invalid XRPL address");
-  }
-
-  fetch("http://localhost:3000/claim-reward", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ wallet, game: "quiz" })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("🎉 Jinni Token sent! Tx Hash:\n" + data.txHash);
-      } else {
-        alert("❌ Error: " + (data.error || "Unknown"));
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("❌ Could not connect to reward server.");
-    });
-}
-
-// Start game
-loadQuestion();
