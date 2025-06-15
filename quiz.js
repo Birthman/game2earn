@@ -51,36 +51,40 @@ const questions = allQuestions.slice(0, 5);
 let index = 0;
 let score = 0;
 
+
 function loadQuestion() {
   const q = questions[index];
-  document.getElementById("question").textContent = q.q;
-
+  const questionEl = document.getElementById("question");
   const answersEl = document.getElementById("answers");
+
+  // Clear previous content
+  questionEl.textContent = q.q;
   answersEl.innerHTML = "";
 
-  const originalAnswers = [...q.a];
-  const correctAnswer = originalAnswers[q.correct];
+  const correctAnswer = q.a[q.correct];
 
-  const shuffledAnswers = [...originalAnswers];
+  // Shuffle answers for randomness
+  const shuffledAnswers = [...q.a];
   shuffle(shuffledAnswers);
 
-  shuffledAnswers.forEach(ans => {
+  shuffledAnswers.forEach(answer => {
     const btn = document.createElement("button");
-    btn.textContent = ans;
+    btn.textContent = answer;
     btn.classList.add("answer-btn");
 
-    btn.addEventListener("click", () => {
+    btn.onclick = () => {
+      // Disable all answer buttons
       document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
 
-      const isCorrect = ans === correctAnswer;
-
-      if (isCorrect) {
+      // Highlight result
+      if (answer === correctAnswer) {
+        btn.style.backgroundColor = "#b4ffb4"; // correct
         score++;
-        btn.style.backgroundColor = "#b4ffb4"; // green
       } else {
-        btn.style.backgroundColor = "#ffb4b4"; // red
+        btn.style.backgroundColor = "#ffb4b4"; // incorrect
       }
 
+      // Wait before loading next question or showing result
       setTimeout(() => {
         index++;
         if (index < questions.length) {
@@ -89,51 +93,9 @@ function loadQuestion() {
           showReward();
         }
       }, 1000);
-    });
+    };
 
     answersEl.appendChild(btn);
   });
 }
 
-function showReward() {
-  document.getElementById("question").textContent = `You scored ${score} / ${questions.length}`;
-  document.getElementById("answers").innerHTML = "";
-
-  if (score === questions.length) {
-    document.getElementById("reward-box").style.display = "block";
-  } else {
-    const retry = document.createElement("button");
-    retry.textContent = "Try Again";
-    retry.onclick = () => location.reload();
-    retry.classList.add("answer-btn");
-    document.getElementById("answers").appendChild(retry);
-  }
-}
-
-function sendReward() {
-  const wallet = document.getElementById("wallet").value.trim();
-  if (!wallet.startsWith("r") || wallet.length < 25) {
-    return alert("Invalid XRPL address");
-  }
-
-  fetch("http://localhost:3000/claim-reward", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ wallet, game: "quiz" })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("🎉 Jinni Token sent! Tx Hash:\n" + data.txHash);
-      } else {
-        alert("❌ Error: " + (data.error || "Unknown"));
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("❌ Could not connect to reward server.");
-    });
-}
-
-// Start game
-loadQuestion();
