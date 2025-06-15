@@ -1,1 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Arcade Game | Game2Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🚀 Arcade Game</h1>
+    <p>Survive 15 seconds to earn XRP (Game coming soon!)</p>
+  </header>
+
+  <main>
+    <p>Arcade mini-game will be added soon!</p>
+    <input type="text" id="wallet" placeholder="XRPL Wallet (r...)">
+    <button onclick="sendReward()">Claim Test Reward</button>
+  </main>
+
+  <script>
+    function sendReward() {
+      const wallet = document.getElementById("wallet").value;
+      if (!wallet.startsWith("r")) return alert("Invalid address");
+      alert("✅ Tokens will be sent to: " + wallet);
+    }
+  </script>
+</body>
+</html>
 
