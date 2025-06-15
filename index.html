@@ -2,20 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Game2Earn</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Code2Earn</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <h1>🎮 Game2Earn</h1>
-    <p>Select a game to start earning JINNI tokens!</p>
+  <header>
+    <h1>🚀 Code2Earn</h1>
+    <p>Learn to code and earn XRP rewards!</p>
+  </header>
 
-    <div class="menu">
-      <a href="quiz.html" class="menu-btn">🧠 Quiz Game</a>
-      <a href="click.html" class="menu-btn">🖱 Clicker Challenge</a>
-      <a href="comingsoon.html" class="menu-btn">🎯 Memory Game (Coming Soon)</a>
-    </div>
+  <main>
+    <section id="challenge-section">
+      <h2>🧩 Current Challenge</h2>
+      <div id="challenge-description"></div>
+    </section>
+
+    <section id="editor-section">
+      <h2>👨‍💻 Code Editor</h2>
+      <textarea id="code-editor" placeholder="Write your code here..."></textarea>
+      <button onclick="runCode()">▶ Run Code</button>
+      <div id="output"></div>
+      <button id="submit-btn" onclick="submitChallenge()">✅ Submit Challenge</button>
+    </section>
+
+    <section id="reward-section" style="display:none;">
+      <h2>🎉 Challenge Complete!</h2>
+      <p>Enter your XRPL wallet address to receive your reward:</p>
+      <input type="text" id="wallet-address" placeholder="r...">
+      <button onclick="sendReward()">💸 Send Reward</button>
+    </section>
   </main>
+
+  <script src="challenges.js"></script>
+  <script src="main.js"></script>
+  <script src="reward.js"></script>
 </body>
 </html>
