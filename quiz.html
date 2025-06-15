@@ -75,8 +75,10 @@
 <body>
   <h1>🧠 Quiz Game</h1>
 
-  <div id="question">Loading question...</div>
-  <div id="answers"></div>
+  <div id="question"></div>
+<div id="answers"></div>
+<button id="next-btn" style="display:none;" onclick="nextQuestion()">Next</button>
+
 
   <div id="reward-box">
     <h2>🎉 You finished!</h2>
@@ -86,87 +88,98 @@
   </div>
 
   <script>
-    const questions = [
-      {
-        q: "What does HTML stand for?",
-        a: ["HyperText Markup Language", "Home Tool Markup Language", "Hyper Trainer Markup Language"],
-        correct: 0
-      },
-      {
-        q: "What does CSS stand for?",
-        a: ["Cascading Style Sheets", "Creative Style Syntax", "Computer Styling Standard"],
-        correct: 0
-      },
-      {
-        q: "Which one is a JavaScript framework?",
-        a: ["Laravel", "Flask", "React", "Django"],
-        correct: 2
-      },
-      {
-        q: "Which tag is used to link JS in HTML?",
-        a: ["<js>", "<javascript>", "<script>", "<link>"],
-        correct: 2
-      },
-      {
-        q: "What does JSON stand for?",
-        a: ["JavaScript Object Notation", "Java Style Option Naming", "Just Some Object Notation"],
-        correct: 0
-      }
-    ];
-
-    let index = 0;
-    let score = 0;
-
-    function loadQuestion() {
-      const q = questions[index];
-      document.getElementById("question").textContent = q.q;
-
-      const answersEl = document.getElementById("answers");
-      answersEl.innerHTML = "";
-
-      q.a.forEach((answer, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = answer;
-        btn.className = "answer-btn";
-        btn.onclick = () => {
-          document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
-          if (i === q.correct) {
-            btn.style.backgroundColor = "#b4ffb4";
-            score++;
-          } else {
-            btn.style.backgroundColor = "#ffb4b4";
-          }
-          setTimeout(() => {
-            index++;
-            if (index < questions.length) {
-              loadQuestion();
-            } else {
-              showReward();
-            }
-          }, 1000);
-        };
-        answersEl.appendChild(btn);
-      });
+  const questions = [
+    {
+      q: "What does HTML stand for?",
+      a: ["HyperText Markup Language", "Home Tool Markup Language", "Hyper Trainer Markup Language"],
+      correct: 0
+    },
+    {
+      q: "What does CSS stand for?",
+      a: ["Cascading Style Sheets", "Creative Style Syntax", "Computer Styling Standard"],
+      correct: 0
+    },
+    {
+      q: "Which one is a JavaScript framework?",
+      a: ["Laravel", "Flask", "React", "Django"],
+      correct: 2
+    },
+    {
+      q: "Which tag is used to link JS in HTML?",
+      a: ["<js>", "<javascript>", "<script>", "<link>"],
+      correct: 2
+    },
+    {
+      q: "What does JSON stand for?",
+      a: ["JavaScript Object Notation", "Java Style Option Naming", "Just Some Object Notation"],
+      correct: 0
     }
+  ];
 
-    function showReward() {
-      document.getElementById("question").textContent = "🎯 Quiz Complete!";
-      document.getElementById("answers").innerHTML = "";
-      document.getElementById("final-score").textContent = `You scored ${score} out of ${questions.length}`;
-      document.getElementById("reward-box").style.display = "block";
+  let index = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const q = questions[index];
+    document.getElementById("question").textContent = q.q;
+    const answersEl = document.getElementById("answers");
+    const nextBtn = document.getElementById("next-btn");
+
+    answersEl.innerHTML = "";
+    nextBtn.style.display = "none";
+
+    q.a.forEach((answer, i) => {
+      const btn = document.createElement("button");
+      btn.textContent = answer;
+      btn.className = "answer-btn";
+      btn.onclick = () => {
+        // Disable all buttons
+        document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
+
+        // Highlight selection
+        if (i === q.correct) {
+          btn.style.backgroundColor = "#b4ffb4"; // green
+          score++;
+        } else {
+          btn.style.backgroundColor = "#ffb4b4"; // red
+        }
+
+        // Show Next button
+        nextBtn.style.display = "inline-block";
+      };
+      answersEl.appendChild(btn);
+    });
+  }
+
+  function nextQuestion() {
+    index++;
+    if (index < questions.length) {
+      loadQuestion();
+    } else {
+      showReward();
     }
+  }
 
-    function sendReward() {
-      const wallet = document.getElementById("wallet").value.trim();
-      if (!wallet || !wallet.startsWith("r")) {
-        alert("⚠️ Please enter a valid XRPL wallet address.");
-        return;
-      }
-      alert("✅ JINNI token will be sent to: " + wallet);
+  function showReward() {
+    document.getElementById("question").textContent = "🎯 Quiz Complete!";
+    document.getElementById("answers").innerHTML = "";
+    document.getElementById("next-btn").style.display = "none";
+    document.getElementById("reward-box").style.display = "block";
+    document.getElementById("final-score").textContent =
+      `You scored ${score} out of ${questions.length}`;
+  }
+
+  function sendReward() {
+    const wallet = document.getElementById("wallet").value.trim();
+    if (!wallet || !wallet.startsWith("r")) {
+      alert("⚠️ Please enter a valid XRPL wallet address.");
+      return;
     }
+    alert("✅ JINNI token will be sent to: " + wallet);
+  }
 
-    // Load first question
-    window.onload = loadQuestion;
-  </script>
+  window.onload = loadQuestion;
+</script>
+
 </body>
 </html>
