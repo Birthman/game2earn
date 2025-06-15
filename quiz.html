@@ -3,24 +3,204 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz Game</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>🧠 Quiz Game | Game2Earn</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #question {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+
+    #answers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+    }
+
+    .answer-btn {
+      padding: 10px;
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .answer-btn:hover:enabled {
+      background-color: #d0d0d0;
+    }
+
+    .answer-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    #reward-box {
+      display: none;
+      margin-top: 30px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button.claim-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      #answers {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
 <body>
-  <main>
-    <h1>🧠 Quiz Game</h1>
+  <h1>🧠 Quiz Game</h1>
 
-    <div id="question"></div>
-    <div id="answers"></div>
+  <div id="question"></div>
+  <div id="answers"></div>
 
-    <div id="reward-box" style="display: none;">
-      <h2>🎉 You won!</h2>
-      <input type="text" id="wallet" placeholder="Enter XRPL wallet" />
-      <button onclick="sendReward()">Claim JINNI</button>
-    </div>
-  </main>
+  <div id="reward-box">
+    <h2>🎉 You finished!</h2>
+    <p id="final-score"></p>
+    <input type="text" id="wallet" placeholder="Enter XRPL wallet" />
+    <button class="claim-btn" onclick="sendReward()">Claim JINNI</button>
+  </div>
 
-  <!-- Correctly load your external JavaScript AFTER the DOM -->
-  <script src="quiz.js"></script>
+  <script>
+    const allQuestions = [
+      {
+        q: "What does HTML stand for?",
+        a: ["HyperText Markup Language", "Home Tool Markup Language", "Hyper Trainer Markup Language"],
+        correct: 0
+      },
+      {
+        q: "Which symbol is used for comments in JavaScript?",
+        a: ["//", "#", "<!--"],
+        correct: 0
+      },
+      {
+        q: "What does CSS stand for?",
+        a: ["Cascading Style Sheets", "Computer Style Syntax", "Creative Styling System", "Color Style Sheets"],
+        correct: 0
+      },
+      {
+        q: "Which is a JavaScript framework?",
+        a: ["Laravel", "Django", "React", "Flask"],
+        correct: 2
+      },
+      {
+        q: "Which HTML tag is used to link a JavaScript file?",
+        a: ["<script>", "<js>", "<code>", "<link>"],
+        correct: 0
+      },
+      {
+        q: "Which method turns JSON string into JavaScript object?",
+        a: ["JSON.stringify()", "JSON.parse()", "parse.JSON()", "toObject()"],
+        correct: 1
+      },
+      {
+        q: "What is the correct file extension for JavaScript files?",
+        a: [".js", ".javascript", ".script", ".jsx"],
+        correct: 0
+      }
+    ];
+
+    // Shuffle function
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    shuffle(allQuestions);
+    const questions = allQuestions.slice(0, 5);
+
+    let index = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = questions[index];
+      const questionEl = document.getElementById("question");
+      const answersEl = document.getElementById("answers");
+
+      questionEl.textContent = q.q;
+      answersEl.innerHTML = "";
+
+      const correctAnswer = q.a[q.correct];
+      const shuffledAnswers = [...q.a];
+      shuffle(shuffledAnswers);
+
+      shuffledAnswers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.textContent = ans;
+        btn.className = "answer-btn";
+        btn.onclick = () => {
+          document.querySelectorAll(".answer-btn").forEach(b => b.disabled = true);
+          if (ans === correctAnswer) {
+            score++;
+            btn.style.backgroundColor = "#b4ffb4";
+          } else {
+            btn.style.backgroundColor = "#ffb4b4";
+          }
+
+          setTimeout(() => {
+            index++;
+            if (index < questions.length) {
+              loadQuestion();
+            } else {
+              showReward();
+            }
+          }, 1000);
+        };
+        answersEl.appendChild(btn);
+      });
+    }
+
+    function showReward() {
+      document.getElementById("question").textContent = "🎯 You completed the quiz!";
+      document.getElementById("answers").innerHTML = "";
+      document.getElementById("final-score").textContent = `You scored ${score} out of ${questions.length}`;
+      document.getElementById("reward-box").style.display = "block";
+    }
+
+    function sendReward() {
+      const wallet = document.getElementById("wallet").value.trim();
+      if (!wallet || !wallet.startsWith("r")) {
+        alert("⚠️ Please enter a valid XRPL wallet address.");
+        return;
+      }
+      alert("✅ JINNI token will be sent to: " + wallet);
+    }
+
+    // Start game
+    loadQuestion();
+  </script>
 </body>
 </html>
