@@ -7,12 +7,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🧠 Quiz Game</h1>
-  <div id="question"></div>
-<div id="answers"></div>
 
-<div id="reward-box" style="display: none;">
-  <h2>🎉 You won!</h2>
+<main>
+  <h1>🧠 Quiz Game</h1>
+
+  <div id="question" class="question-box"></div>
+  <div id="answers" class="answers-box"></div>
+
+  <div id="reward-box" style="display: none;">
+    <h2>🎉 You won!</h2>
+    <input type="text" id="wallet" placeholder="Enter XRPL wallet" />
+    <button onclick="sendReward()">Claim JINNI</button>
+  </div>
+</main>
+  
   <input type="text" id="wallet" placeholder="Enter XRPL wallet" />
   <button onclick="sendReward()">Claim JINNI</button>
 </div>
