@@ -53,3 +53,56 @@ footer {
   cursor: pointer;
   border-radius: 5px;
 }
+
+
+
+
+
+
+
+
+
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: #f9f9f9;
+}
+
+main, .game-container {
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+button {
+  width: 90%;
+  max-width: 300px;
+  margin: 10px auto;
+  padding: 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+}
