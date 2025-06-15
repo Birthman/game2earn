@@ -106,3 +106,12 @@ button:hover {
     font-size: 1rem;
   }
 }
+
+
+
+
+body, button, #click-btn {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
